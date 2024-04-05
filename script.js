@@ -145,7 +145,6 @@ var types = {
     start: new setButton("start", "lightgreen"),
     finish: new setButton("finish", "palevioletred"),
     hands: new setButton("hands", "lightblue"),
-    feet: new setButton("feet", "yellow"),
 }
 
 var set = {
