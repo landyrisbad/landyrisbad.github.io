@@ -39,6 +39,11 @@ function setHoldButtons () {
     var totx = 0;
     var toty = 0;
     var index = 0;
+
+    // go through all poly coords and add to list of vertices
+    // when that poly is done, the element is "" so create that poly
+
+    //has poly and circle just in case??
     actualHolds.forEach(function (element, i) {
         if (element == "") {
             var poly = document.createElementNS('http://www.w3.org/2000/svg', "polygon");
@@ -47,9 +52,6 @@ function setHoldButtons () {
             poly.setAttribute("id",index);
             svg.appendChild(poly);
             poly.addEventListener("click", setHold);
-            poly.addEventListener("click", () => {
-                console.log(i+446);
-            });
             var circle = document.createElementNS('http://www.w3.org/2000/svg', "circle");
             circle.setAttribute("class", "hand-hold-circle");
             circle.setAttribute("id", `${index}-circle`);
