@@ -155,10 +155,10 @@ var set = {
 }
 
 function setHold(event) {
-    if (document.getElementById(`${event.target.id}`).style.fill == types[currentSet].color) {
+    if (document.getElementById(`${event.target.id}-circle`).style.fill == types[currentSet].color) {
         removeHold(event.target);   
     }
-    else if (document.getElementById(`${event.target.id}`).style.fill != "") {
+    else if (document.getElementById(`${event.target.id}-circle`).style.fill != "") {
     }
     else { 
         if (currentSet == "start" & set[currentSet].length >= 2) {
@@ -193,11 +193,11 @@ function displayError (message) {
 
 function addHold (element) {
     set[currentSet].push(element.id);
-    document.getElementById(`${element.id}`).style.stroke = types[currentSet].color;
+    document.getElementById(`${element.id}-circle`).style.fill = types[currentSet].color;
 }
 
 function removeHold (element) {
-    document.getElementById(`${element.id}`).style.fill = "";
+    document.getElementById(`${element.id}-circle`).style.fill = "";
     set[currentSet].splice(set[currentSet].indexOf(element.id)-1, 1);
 }
 
