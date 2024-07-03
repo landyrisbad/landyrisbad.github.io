@@ -54,7 +54,7 @@ function setHoldButtons () {
             poly.addEventListener("click", setHold);
             var circle = document.createElementNS('http://www.w3.org/2000/svg', "circle");
             circle.setAttribute("class", "hand-hold-circle");
-            circle.setAttribute("id", `${index}-circle`);
+            circle.setAttribute("id", `${index}`);
             circle.setAttribute("r", "2");
             circle.setAttribute("cx", `${totx / polygonCorners.length}`);
             circle.setAttribute("cy", `${toty / polygonCorners.length}`);
@@ -79,7 +79,6 @@ function setHoldButtons () {
     });
     board.appendChild(svg);
 }
-setHoldButtons();
 
 function removeHoldButtons () {
     while (board.firstChild) {
@@ -122,26 +121,26 @@ const setButton = class {
 var setting = false;
 var startSetting = document.getElementById("set-title");
 startSetting.addEventListener("click", () => {
-    removeHoldButtons();
     if (setting) {
         document.getElementById("setting").style.display = "none";
         document.getElementById("error").style.display = "none";
         setting = false;
-        document.getElementById("set").classList.remove("current");
         startSetting.style.color = "black";
-        window.location.href = "";
-
+        document.getElementById("set").classList.remove("current");
+        currentSet = "";
     }
     else {
         setting = true;
         document.getElementById("set").classList.add("current");
         document.getElementById("setting").style.display = "flex";
         document.getElementById("error").style.display = "block";
-        window.location.href = "#set"
         startSetting.style.color = "red";
     }
-    setHoldButtons();
 });
+
+// *************************************************** \\
+// current set is the foot/hand/start which is being set
+// 'set' is the whole data structure for all holds
 
 var types = {
     start: new setButton("start", "lightgreen"),
@@ -155,12 +154,18 @@ var set = {
     hands: [],
     feet: []
 }
+var cleanset = {
+    start: [],
+    finish: [],
+    hands: [],
+    feet: []
+}
 
 function setHold(event) {
-    if (document.getElementById(`${event.target.id}`).style.fill == types[currentSet].color) {
+    if (document.getElementById(`${event.target.id}`).style.stroke == types[currentSet].color) {
         removeHold(event.target);   
     }
-    else if (document.getElementById(`${event.target.id}`).style.fill != "") {
+    else if (document.getElementById(`${event.target.id}`).style.stroke != "") {
     }
     else { 
         if (currentSet == "start" & set[currentSet].length >= 2) {
@@ -199,7 +204,7 @@ function addHold (element) {
 }
 
 function removeHold (element) {
-    document.getElementById(`${element.id}`).style.fill = "";
+    document.getElementById(`${element.id}`).style.stroke = "";
     set[currentSet].splice(set[currentSet].indexOf(element.id)-1, 1);
 }
 
@@ -216,6 +221,10 @@ function getSetcode () {
 loadSet("");
 
 function loadSet (setcode) {
+    set = cleanset;
+    removeHoldButtons();
+    setHoldButtons();
+
     if (setcode == "") {
         var getValues = new URLSearchParams(location.search);
         if (getValues.has("setData")) {
@@ -226,11 +235,8 @@ function loadSet (setcode) {
         }
     }
 
-    removeHoldButtons();
-    setHoldButtons();
     setcode = setcode.split(".");
     if (setcode[0] == "error") {
-        alert("bad setcode");
         return;
     }
     currentSet = "start";
@@ -299,3 +305,4 @@ popupButton.addEventListener("click", () => {
         window.location.href = `/?setData=${popupInput.value}`;
     }
 });
+
