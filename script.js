@@ -52,7 +52,7 @@ function setHoldButtons () {
             poly.setAttribute("id",index);
             svg.appendChild(poly);
             poly.addEventListener("click", setHold);
-            var circle = document.createElementNS('http://www.w3.org/2000/svg', "circle");
+            /*var circle = document.createElementNS('http://www.w3.org/2000/svg', "circle");
             circle.setAttribute("class", "hand-hold-circle");
             circle.setAttribute("id", `${index}`);
             circle.setAttribute("r", "2");
@@ -64,7 +64,7 @@ function setHoldButtons () {
             });
             toty = 0;
             totx = 0;
-            svg.appendChild(circle);
+            svg.appendChild(circle); */
             polygonCorners = [];
             index += 1;
         } 
@@ -241,19 +241,39 @@ function loadSet (setcode) {
     }
     currentSet = "start";
     for (var value of setcode[0].split(",")) {
+        try {
         addHold(document.getElementById(value));
+        }
+        catch {
+            break;
+        }
     }
     currentSet = "finish";
     for (var value of setcode[1].split(",")) {
-        addHold(document.getElementById(value));
+        try {
+            addHold(document.getElementById(value));
+            }
+            catch {
+                break;
+            }
     }
     currentSet = "hands";
     for (var value of setcode[2].split(",")) {
-        addHold(document.getElementById(value));
+        try {
+            addHold(document.getElementById(value));
+            }
+            catch {
+                break;
+            }
     }
     currentSet = "feet";
     for (var value of setcode[3].split(",")) {
-        addHold(document.getElementById(value));
+        try {
+            addHold(document.getElementById(value));
+            }
+            catch {
+                break;
+            }
     }
 }
 
